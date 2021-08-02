@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- Cleaned and Updated https://github.com/imcullan/Paint -->
+	<!-- Thank you Cullan Liang for a great learning program for Fabric -->
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>paint_fabricjs</title>
+</head>
+
+<body>
+
+	<label id="currentTool">Mode: Select</label>
+	<label id="currentAction">&emsp;&emsp;Action: None</label>
+	<label id="currentColor">&emsp;&emsp;Color: Black</label>
+
+	<div id="sketch" class="container" align="left">
+		<div class="menu">
+			<div class="button-group">
+				<button class="btn btn-default button-group mode" id="Select">Select</button>
+				<button class="btn btn-default button-group mode" id="Freeline">Free</button>
+				<button class="btn btn-default button-group mode" id="Straightline">Line</button>
+				<button class="btn btn-default button-group mode" id="Rectangle">Rectangle</button>
+				<button class="btn btn-default button-group mode" id="Ellipse">Ellipse</button>
+				<button class="btn btn-default button-group mode" id="Circle">Circle</button>
+				<button class="btn btn-default button-group mode" id="Square">Square</button>
+			</div>
+			<div class="button-group">
+				<button class="btn btn-default button-group action" id="Clear">Clear</button>
+				<button class="btn btn-default button-group action" id="Copy">Copy</button>
+				<button class="btn btn-default button-group action" id="Cut">Cut</button>
+				<button class="btn btn-default button-group action" id="Paste">Paste</button>
+				<button class="btn btn-default button-group action" id="Delete">Delete</button>
+				<button class="btn btn-default button-group action" id="MirrorX">MirrorX</button>
+				<button class="btn btn-default button-group action" id="MirrorY">MirrorY</button>
+				<button class="btn btn-default button-group action" id="Group">Group</button>
+				<button class="btn btn-default button-group action" id="Ungroup">Ungroup</button>
+				<button class="btn btn-default button-group action" id="Undo">Undo</button>
+				<button class="btn btn-default button-group action" id="Redo">Redo</button>
+				<button class="btn btn-default button-group action" id="Save">Save</button>
+
+				<!-- File Load is different process -->
+				<input type="file" class="file" id="attachment" style="display: none;" onchange="fileSelected(this)" />
+				<input type="button" class="file" id="btnAttachment" onclick="openAttachment()" value="Load" />
+
+				<script>
+					function openAttachment() {
+						document.getElementById('attachment').click();
+					}
+
+					function fileSelected(input) {
+						//myFile = input.files[0].name;
+
+						try {
+							var file = input.files[0];
+							var reader = new FileReader();
+							reader.onload = function (e) {
+								var json = reader.result;
+								canvas.loadFromJSON(json, canvas.renderAll.bind(canvas), function (o, object) {
+									canvas.requestRenderAll();
+								});
+							}
+							reader.readAsText(file);
+						} catch (e) {};
+
+					}
+				</script>
+
+				<div class="color-button-group">
+					<button class="btn color" id="Red" style="background-color:red"></button>
+					<button class="btn color" id="Orange" style="background-color:orange"></button>
+					<button class="btn color" id="Yellow" style="background-color:yellow"></button>
+					<button class="btn color" id="Green" style="background-color:green"></button>
+					<button class="btn color" id="Blue" style="background-color:blue"></button>
+					<button class="btn color" id="Indigo" style="background-color:indigo"></button>
+					<button class="btn color" id="Violet" style="background-color:violet"></button>
+					<button class="btn color" id="Black" style="background-color:black"></button>
+				</div>
+
+				<input action="#" class="range-field" type="range" id="test5" min="1" max="150" value="10">
+				<label><input id="dFill" type="checkbox">Fill</label>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="wrapper z-depth-5">
+		<canvas id="myCanvas"></canvas>
+	</div>
+
+	</div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/fabric@latest/dist/fabric.js"></script>
+<script src="canvas.js"></script>
+<script src="canvasStyle.js"></script>
+<script src="moveObjects.js"></script>
+
+</html>
